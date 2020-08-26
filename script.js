@@ -18,7 +18,7 @@ function init(){
 function parseSentences(){
   console.log("Now parsing text...")
   console.log(text)
-  sentences = text.replace(/([.?!])(\s*)([A-Z][0-9])/g, "$1|$2$3")
+  sentences = text.replace(/([.?!])(\s*)([A-Z0-9])/g, "$1|$2$3")
   console.log(sentences)
 
   //Output here
