@@ -1,42 +1,44 @@
 var text = null
-function init(){
+
+function init() {
   document.getElementById('inputfile')
     .addEventListener('change', function() {
 
-    var fr=new FileReader();
-    fr.onload=function(){
+      var fr = new FileReader();
+      fr.onload = function() {
         document.getElementById('output')
-                .textContent=fr.result;
+          .textContent = fr.result;
         text = fr.result
         console.log(fr)
-    }
+      }
 
-    fr.readAsText(this.files[0]);
-})
+      fr.readAsText(this.files[0]);
+    })
 }
 //Mr. & Dr.?
 //Quotation marks? Include as optional in all quotation marks
 //Followed optionally my a quatation mark --
-function parseSentences(){
+function parseSentences() {
   console.log("Now parsing text...")
-  console.log(text)
-  //dots = text.replace(/(Mr|Dr|Mrs|Miss)(.)/g, "$1***")
-  sentences = text.replace(/([.?!])(\s*)([A-Z0-9])/g, "$1|$2$3")
-  console.log(sentences)
+
+  //sentencesStar = text.replace(/(Mr|Dr|Mrs|Miss)(.)/g, "$1***")
+
+  sentencesStar = text.replace(/([.?!]"?)(\s*)("?[A-Z0-9])/g, "$1|$2$3")
+  //sentences = sentencesStar.replace(/(\*\*\*)/g, ".")
 
   //Output here
-  download("parsedDocument.txt", sentences);
+  download("parsedDocument.txt", sentencesStar);
 }
 
 function download(filename, text) {
-    var element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-    element.setAttribute('download', filename);
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
 
-    element.style.display = 'none';
-    document.body.appendChild(element);
+  element.style.display = 'none';
+  document.body.appendChild(element);
 
-    element.click();
+  element.click();
 
-    document.body.removeChild(element);
+  document.body.removeChild(element);
 }
