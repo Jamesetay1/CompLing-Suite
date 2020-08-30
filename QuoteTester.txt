@@ -1,2 +1,0 @@
-This is to test "quotes". As they said, "I sure do love to test quotes... yes I do!".
-That is enough.
