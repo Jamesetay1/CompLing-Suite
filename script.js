@@ -21,7 +21,7 @@ function init() {
 function parseSentences() {
   console.log("Now parsing text...")
 
-  sentencesStar = text.replace(/(Mr|Dr|Mrs|Ms|e\.g|e\.t\.c|i\.e)\./g, "$1***")
+  sentencesStar = text.replace(/(Mr|Dr|Mrs|Ms|U\.S|e\.g|e\.t\.c|i\.e)\./g, "$1***")
   console.log(sentencesStar)
   sentencesStarParsed = sentencesStar.replace(/([.?!]"?)(\s*)("?[A-Z0-9])/g, "$1|$2$3")
   console.log(sentencesStarParsed)
