@@ -15,18 +15,13 @@ function init() {
       fr.readAsText(this.files[0]);
     })
 }
-//Mr. & Dr.?
-//Quotation marks? Include as optional in all quotation marks
-//Followed optionally my a quatation mark --
+
 function parseSentences() {
   console.log("Now parsing text...")
 
   sentencesStar = text.replace(/(Mr|Dr|Mrs|Ms|U\.S|e\.g|e\.t\.c|i\.e)\./g, "$1***")
-  console.log(sentencesStar)
   sentencesStarParsed = sentencesStar.replace(/([.?!]"?)(\s*)("?[A-Z0-9])/g, "$1|$2$3")
-  console.log(sentencesStarParsed)
   sentencesParsed = sentencesStarParsed.replace(/(\*\*\*)/g, ".")
-  console.log(sentencesParsed)
 
   //Output here
   download("parsedDocument.txt", sentencesParsed);
