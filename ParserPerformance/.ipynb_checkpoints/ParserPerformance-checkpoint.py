@@ -10,7 +10,7 @@ file2str = file2.read()
 def parse_to_vector(filexstr):
     wordList = re.findall("\s?\S*\s?", filexstr)[:-1]
     wordcount = len(wordList)
-    
+
     vector = np.zeros(wordcount, dtype=int)
     for i in range(len(vector)):
         if '|' in wordList[i]:
