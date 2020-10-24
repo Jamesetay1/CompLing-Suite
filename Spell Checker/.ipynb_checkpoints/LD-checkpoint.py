@@ -28,15 +28,15 @@ def LD_Iter(word1, word2, costDeletion, costAddition, costSubstiution):
             elif j == 0:
                 matrix[i][j] = i
             else:
-                cost1 = matrix[i-1][j] + 1
-                cost2 = matrix[i][j-1] + 1
+                cost1 = matrix[i-1][j] + costAddition
+                cost2 = matrix[i][j-1] + costDeletion
                 cost3 = matrix[i-1][j-1] + (0 if word1[i-1] == word2[j-1] else costSubstiution);
                 matrix[i][j] = min(cost1, cost2, cost3)
     
     return matrix[n-1][m-1]
     
 
-word1 = "maad"
-word2 = "mad"
-print("MED between " + word1 + " and " + word2 + " is: " + str(LD_Iter(word1, word2, 1, 1, 1)))
+word1 = "intent"
+word2 = "execute"
+print("MED between " + word1 + " and " + word2 + " is: " + str(LD_Iter(word1, word2, 2, 2, 1)))
 print("MED between " + word1 + " and " + word2 + " is: " + str(LD_Recursive(word1, word2)))
