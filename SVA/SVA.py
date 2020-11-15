@@ -53,8 +53,9 @@ for sent in doc.sentences:
             else:
                 correct.append(word.text + "(" + word.xpos + ") " + "<--nsubj--- " + sent.words[word.head-1].text + "(" + gov_pos + ")")
 
+        #Check for cases like "A dog run through the park", where it is NN + NN (or NNS + NNS) and the root is the governor noun
         if word.deprel == "compound":
-            if gov_pos == dep_pos:
+            if gov_pos == dep_pos and gov.deprel == "root":
                 compounds.append(word.text + "(" + word.xpos + ") " + "<--compound--- " + sent.words[word.head-1].text + "(" + gov_pos + ")")
 
 
@@ -73,5 +74,5 @@ print(*incorrect,sep='\n')
 print("\nThe following nsubj dependencies were found to be correct:")
 print(*correct,sep='\n')
 
-print("\nThe following compound nouns were found and could actually be subject verb agreement errors:")
+print("\nThe following compound nouns were found and are likely subject verb agreement errors:")
 print(*compounds,sep='\n')
