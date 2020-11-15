@@ -41,7 +41,7 @@ for line in Lines:
 # Splitting into train and test
 random.seed(1234)
 # validation set is 5% of the total dataset
-train_set,test_set = train_test_split(my_data,random_state = 123,test_size=0.1)
+train_set,test_set = train_test_split(my_data,random_state = 123,test_size=0.3)
 
 print("Training Sentences: " + str(len(train_set)))
 print("Testing Sentences: " + str(len(test_set)))
@@ -119,11 +119,12 @@ def rule_based(words, state):
         (r'.*ing$', 'VB'),              # gerund
         (r'.*ed$', 'VB'),               # past tense
         (r'.*es$', 'VB'),               # 3rd singular present
+        (r'.*y$', 'ADJ'),              # adj
         (r'.*ould$', 'AUX'),              # modals
         (r'.*\'s$', 'N'),              # possessive nouns
         (r'.*s$', 'N'),                # plural nouns
-        (r'.*\*.*', 'N'),                # plural nouns 
-        (r'.*', 'N')                    # nouns
+        (r'.*', 'N'),                    # nouns
+
     ]
     
     regexp_tagger = nltk.RegexpTagger(patterns)
