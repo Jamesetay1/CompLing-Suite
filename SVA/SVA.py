@@ -21,6 +21,7 @@ grouping_dict = {
                 "DT_1": ["this", "that"],
                 "DT_2": ["these", "those"],
 }
+
 def error(dep, gov):
     print(dep.text + "," + gov.text)
     if dep.xpos in nsubj_Agreement_dict[gov.xpos]:
@@ -32,7 +33,6 @@ def error(dep, gov):
 
     return True;
 
-# ACCEPTABLE COMBINATIONS HERE
 correct = []
 incorrect = []
 compounds = []
@@ -44,6 +44,7 @@ for sent in doc.sentences:
         gov = sent.words[word.head - 1]
         gov_pos = gov.xpos
 
+        #Check against the "agreement matrix"
         if word.deprel == "nsubj":
             if gov_pos not in nsubj_Agreement_dict:
                 continue
