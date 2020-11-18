@@ -2,7 +2,7 @@ import stanza
 #stanza.download('en')
 nlp = stanza.Pipeline('en', processors = "tokenize, pos, lemma, depparse", batch_size = "100")
 
-with open('singlesent.txt', 'r') as file:
+with open('testsentences.txt', 'r') as file:
     data = file.read()
 doc = nlp(data)
 
@@ -37,8 +37,6 @@ correct = []
 incorrect = []
 compounds = []
 for sent in doc.sentences:
-    AgreementList = {}
-
     for word in sent.words:
         dep = word
         dep_pos = word.xpos
@@ -48,19 +46,19 @@ for sent in doc.sentences:
 
         #Check against the "agreement matrix"
         if word.deprel == "nsubj":
-            AgreementList["subj"] = word
+            if gov_pos not in nsubj_Agreement_dict:
+                continue
 
-        if word.deprel == "aux":
-            AgreementList["aux"] = word
+            if error(dep, gov):
+                incorrect.append(word.text + "(" + word.xpos + ") " + "<--nsubj--- " + sent.words[word.head-1].text + "(" + gov_pos + ")")
+            else:
+                correct.append(word.text + "(" + word.xpos + ") " + "<--nsubj--- " + sent.words[word.head-1].text + "(" + gov_pos + ")")
 
-
-
-
-        # Check for cases like "A dog run through the park", where it is NN + NN (or NNS + NNS) and the root is the governor noun
+        #Check for cases like "A dog run through the park", where it is NN + NN (or NNS + NNS) and the root is the governor noun
         if word.deprel == "compound":
             if gov_pos == dep_pos and gov.deprel == "root":
-                compounds.append(word.text + "(" + word.xpos + ") " + "<--compound--- " + sent.words[
-                    word.head - 1].text + "(" + gov_pos + ")")
+                compounds.append(word.text + "(" + word.xpos + ") " + "<--compound--- " + sent.words[word.head-1].text + "(" + gov_pos + ")")
+
 
 
 total_num = len(correct) + len(incorrect)
