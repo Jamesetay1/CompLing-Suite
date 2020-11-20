@@ -2,7 +2,7 @@ import stanza
 #stanza.download('en')
 nlp = stanza.Pipeline('en', processors = "tokenize, pos, lemma, depparse", batch_size = "100")
 
-with open('testsentences.txt', 'r') as file:
+with open('singlesent.txt', 'r') as file:
     data = file.read()
 doc = nlp(data)
 

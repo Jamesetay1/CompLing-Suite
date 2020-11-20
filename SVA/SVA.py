@@ -37,7 +37,7 @@ correct = []
 incorrect = []
 compounds = []
 for sent in doc.sentences:
-    AgreementList = {}
+    parts = {}
 
     for word in sent.words:
         dep = word
@@ -48,34 +48,44 @@ for sent in doc.sentences:
 
         #Check against the "agreement matrix"
         if word.deprel == "nsubj":
-            AgreementList["subj"] = word
+            parts["subj"] = word
+            parts["subj-mv"] = word
 
         if word.deprel == "aux":
-            AgreementList["aux"] = word
-
-
-
+            parts["aux"] = word
+            parts["aux-mv"] = word
 
         # Check for cases like "A dog run through the park", where it is NN + NN (or NNS + NNS) and the root is the governor noun
         if word.deprel == "compound":
             if gov_pos == dep_pos and gov.deprel == "root":
                 compounds.append(word.text + "(" + word.xpos + ") " + "<--compound--- " + sent.words[
                     word.head - 1].text + "(" + gov_pos + ")")
+                continue
+
+        if "aux" in parts:
+            if error(parts["subj"], parts["aux"]):
+                incorrect.append(parts["subj"].text + "(" + word.xpos + ") " + "<--nsubj--- "
+                                 + parts["aux"].text + "(" + parts["aux"].xpos + ") "
+                                 + parts["aux-mv"] + word + " ")
+        else:
+            if error(parts["subj"], parts["subj-mv"]):
+                incorrect.append(word.text + "(" + word.xpos + ") " + "<--nsubj--- " + sent.words[
+                    word.head - 1].text + "(" + gov_pos + ")")
 
 
-total_num = len(correct) + len(incorrect)
-correct_percent = len(correct)/total_num * 100
-incorrect_percent = len(incorrect)/total_num * 100
-print("\nGeneral Statistics:")
-print("# of nsubj dependencies considered: " + str(total_num))
-print("# and percent of correct uses: " + str(len(correct)) + ", " + str(correct_percent))
-print("# and percent of correct uses: " + str(len(incorrect)) + ", " + str(incorrect_percent))
-
-print("\nThe following nsubj dependencies were found to be incorrect:")
-print(*incorrect,sep='\n')
-
-print("\nThe following nsubj dependencies were found to be correct:")
-print(*correct,sep='\n')
-
-print("\nThe following compound nouns were found and are likely subject verb agreement errors:")
-print(*compounds,sep='\n')
+# total_num = len(correct) + len(incorrect)
+# correct_percent = len(correct)/total_num * 100
+# incorrect_percent = len(incorrect)/total_num * 100
+# print("\nGeneral Statistics:")
+# print("# of nsubj dependencies considered: " + str(total_num))
+# print("# and percent of correct uses: " + str(len(correct)) + ", " + str(correct_percent))
+# print("# and percent of correct uses: " + str(len(incorrect)) + ", " + str(incorrect_percent))
+#
+# print("\nThe following nsubj dependencies were found to be incorrect:")
+# print(*incorrect,sep='\n')
+#
+# print("\nThe following nsubj dependencies were found to be correct:")
+# print(*correct,sep='\n')
+#
+# print("\nThe following compound nouns were found and are likely subject verb agreement errors:")
+# print(*compounds,sep='\n')
