@@ -23,7 +23,7 @@ word.text = walked, word.head = 0 (ROOT)
 word.text = through, word.head = 5 (door)  
 word.text = the, word.head = 5 (door)  
 word.text = door, word.head = 2 (walked)   
-word.text = ., word.head = 2 (walked)
+word.text = ., word.head = 2 (walked)  
 <br />
 Resulting in a forwards dependency list of word objects:    
 [ [] , \[word.text = "he", word.text = "door", word.text =  "."], [], [], \[word.text = "through", word.text = "the"]]  
@@ -46,19 +46,20 @@ The relationships we are currently looking for are:
 <em>If the word has a copular forward dependency AND an nsubj forward dependency</em> 
 <br />
 <b>3B: 3A + Subject Predicate --aux--> Aux:</b>  
-<em>If the word has a copular forward dependency AND an nsubj forward dependency AND an aux nsubj forward depdency</em> 
-
-<h4> Example </h4>
-Given the sentence: I am happy that he have been a friend since we met last September.  
-The program will recognize three subject-verb relationships in this sentence
-I am happy (Relationship 3A)
-he have been a friend (Relationship 3B)
-we met (Relationship 1)
-
-When we check these against our error matrix we find:
-Correct: I (PRP) <--nsubj-- am (VBP)
-Incorrect: he (PRP) <--nsubj-- have (VBP)
-Correct: we (PRP) <--nsubj-- met (VBD)
+<em>If the word has a copular forward dependency AND an nsubj forward dependency AND an aux nsubj forward depdency</em>   
+<br />
+<b>Example</b>  
+Given the sentence: I am happy that he have been a friend since we met last September.
+<br />    
+The program will recognize three subject-verb relationships in this sentence:  
+I am happy (Relationship 3A)  
+he have been a friend (Relationship 3B)  
+we met (Relationship 1)  
+<br />
+When we check these against our error matrix we find:  
+Correct: I (PRP) <--nsubj-- am (VBP)  
+Incorrect: he (PRP) <--nsubj-- have (VBP)  
+Correct: we (PRP) <--nsubj-- met (VBD)  
 
 <h3> Limitations </h3>
 Modals and coordinating conjunctions are not currently supported, but being worked on.
