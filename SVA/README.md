@@ -46,7 +46,7 @@ The relationships we are currently looking for are:<br>
 <em>If the word has a copular forward dependency AND an nsubj forward dependency</em>
 <b>3B: 3A + Subject Predicate --aux--> Aux:</b>  
 <em>If the word has a copular forward dependency AND an nsubj forward dependency AND an aux nsubj forward depdency</em><br> 
-  
+<br />  
 <b>Example</b>  
 Given the sentence: I am happy that he have been a friend since we met last September.
 <br />    
