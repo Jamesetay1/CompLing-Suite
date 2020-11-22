@@ -1,5 +1,5 @@
 <h1>Subject Verb Agreement Error Detection</h1>
-This is a program designed to detect subject verb agreement errors.
+This is a program designed to detect subject verb agreement errors.<br>
 The program specifically targets errors commonly found in the English Placement Test for Non-Native English speakers (EPT)
 <h3> Background </h3>
 This program was the final group project for <b>LING 520: Computational Analysis of English at Iowa State
