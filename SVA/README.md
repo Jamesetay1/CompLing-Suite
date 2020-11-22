@@ -33,7 +33,7 @@ Also note that the root never appears (because it can only be a governor, and is
 Once we have completed our forward dependency list, we go through the sentence again
 and look for special relationships to test. We test against an agreement dictionary, which is determined
 by the matrix below:  
-![w/e](docs/agreement_matrix.png)<br>  
+![matrix](/docs/agreement_matrix.png)<br>  
 <br />
 The relationships we are currently looking for are:<br>    
 <b>1: Main Verb --nsubj--> Noun:</b>     
