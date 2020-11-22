@@ -47,9 +47,8 @@ The relationships we are currently looking for are:<br>
 <b>3B: 3A + Subject Predicate --aux--> Aux:</b>  
 <em>If the word has a copular forward dependency AND an nsubj forward dependency AND an aux nsubj forward depdency</em><br> 
 <br />  
-<h4>Example</h4><br>  
-Given the sentence: I am happy that he have been a friend since we met last September.
-<br />    
+<h4>Example</h4> 
+Given the sentence: I am happy that he have been a friend since we met last September.<br>
 <b>The program will recognize three subject-verb relationships in this sentence:</b><br>  
 I am happy (Relationship 3A)<br>  
 he have been a friend (Relationship 3B)<br>  
