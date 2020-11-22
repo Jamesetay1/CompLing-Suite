@@ -33,7 +33,7 @@ Also note that the root never appears (because it can only be a governor, and is
 Once we have completed our forward dependency list, we go through the sentence again
 and look for special relationships to test. We test against an agreement dictionary, which is determined
 by the matrix below:  
-![matrix](/docs/agreement_matrix.png)<br>  
+![matrix](https://github.com/Jamesetay1/520/blob/master/SVA/docs/agreement_matrix.png?raw=true)<br>  
 <br />
 The relationships we are currently looking for are:<br>    
 <b>1: Main Verb --nsubj--> Noun:</b>     
@@ -47,7 +47,7 @@ The relationships we are currently looking for are:<br>
 <b>3B: 3A + Subject Predicate --aux--> Aux:</b>  
 <em>If the word has a copular forward dependency AND an nsubj forward dependency AND an aux nsubj forward depdency</em><br> 
 <br />  
-<h4>Example</h4> 
+<h3>Example</h3> 
 Given the sentence: I am happy that he have been a friend since we met last September.<br>
 <br />
 <b>The program will recognize three subject-verb relationships in this sentence:</b><br>  
@@ -55,7 +55,7 @@ I am happy (Relationship 3A)<br>
 he have been a friend (Relationship 3B)<br>  
 we met (Relationship 1)<br>  
 <br />
-When we check these against our error matrix we find:  
+When we check these against our error matrix we find:<br>  
 Correct: I (PRP) <--nsubj-- am (VBP)<br>
 Incorrect: he (PRP) <--nsubj-- have (VBP)<br>
 Correct: we (PRP) <--nsubj-- met (VBD)<br>
