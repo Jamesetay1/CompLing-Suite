@@ -50,10 +50,10 @@ The relationships we are currently looking for are:<br>
 <b>Example</b>  
 Given the sentence: I am happy that he have been a friend since we met last September.
 <br />    
-The program will recognize three subject-verb relationships in this sentence:  
-I am happy (Relationship 3A)  
-he have been a friend (Relationship 3B)  
-we met (Relationship 1)  
+<b>The program will recognize three subject-verb relationships in this sentence:</b><br>  
+I am happy (Relationship 3A)<br>  
+he have been a friend (Relationship 3B)<br>  
+we met (Relationship 1)<br>  
 <br />
 When we check these against our error matrix we find:  
 Correct: I (PRP) <--nsubj-- am (VBP)<br>
