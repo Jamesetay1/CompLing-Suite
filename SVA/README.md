@@ -6,7 +6,11 @@ This program was the final group project for <b>LING 520: Computational Analysis
 University, Fall 2020.</b>
 The associated research paper for this program is available here:
 
-Program written by me (James Taylor)
+Program written by me (James Taylor, jamesetay1@gmail.com)<br>
+Corpus Research and Derivation of Rules by:<br>
+Ella Alhudithi (ella@iastate.edu) <br>
+Thomas Elliott (thomase@iastate.edu) <br>
+Sondoss Elnegahy (sondoss@iastate.edu) <br>
 
 <h3>How it works</h3>
 After reading in a file that contains the sentences in question, coreNLP Python library Stanza is used to
