@@ -1,1 +1,60 @@
+<h1>Subject Verb Agreement Error Detection</h1>
 This is a program designed to detect subject verb agreement errors.
+The program specifically targets errors commonly found in the English Placement Test for Non-Native English speakers (EPT)
+<h3> Background </h3>
+This program was the final group project for <b>LING 520: Computational Analysis of English at Iowa State
+University, Fall 2020.</b>
+The associated research paper for this program is available here:
+
+Program written by me (James Taylor)
+
+<h3>How it works</h3>
+After reading in a file that contains the sentences in question, coreNLP Python library Stanza is used to
+tokenize, tag, and dependency parse on a sentence by sentence basis.  
+<br />
+After this is done we iterate through each sentence object and
+build a 'forward' dependency list. Each word object
+already contains the id of it's governor, so this information
+is simply reconstructed in a format that's easier to use.  
+<br />
+For Example, coreNLP parses "He walked through the door ." to the following dependencies:  
+word.text = He, word.head = 2 (walked)  
+word.text = walked, word.head = 0 (ROOT)  
+word.text = through, word.head = 5 (door)  
+word.text = the, word.head = 5 (door)  
+word.text = door, word.head = 2 (walked)   
+word.text = ., word.head = 2 (walked)
+ <br />
+Resulting in a forwards dependency list of word objects:    
+[ [] , [word.text = "he", word.text = "door", word.text =  "."], [], [], [word.text = "through", word.text = "the"]]  
+<em> Note that this list is populated with word objects, not just their text. 
+Also note that the root never appears (because it can only be a governor, and is never a dependent) </em>
+
+<h3> Relationships, Rules, and Examples </h3>
+Once we have completed our forward dependency list, we go through the sentence again
+and look for special relationships to test. We test against an agreement dictionary, which is determined
+by the matrix below:
+![matrix](docs/agreement_matrix.png)  
+<br />
+The relationships we are currently looking for are:  
+<br />    
+<b>Main Verb --nsubj--> Noun:</b>     
+<em>If the word is a verb AND it has a nsubj forward dependency AND it does <b>NOT</b> have any aux forward dependency</em>  
+<br />
+<b> Aux + Main Verb -- nsubj --> Noun:</b>  
+<em>If the word is a verb AND it has a nsubj forward depedency AND it <b>DOES</b> have any aux forward dependency</em>  
+<br />
+<b> Noun <--nsubj-- Subject Predicate --cop--> Verb:</b>  
+<em>If the word has a copular forward depedency AND an nsubj forward dependency</em>  
+
+<h3> Limitations </h3>
+One limitation of this program surrounds the uncertainty of if there is a mismatch in number between
+subject and verb or if it is truly a compound noun. coreNLP will mark instances like "The man park his car"
+as: Man: NN, park: NN, as to say that the noun is 'man park'. Of course this is actually meant to be, 
+"The man parks his car", but the agreement in number between subject and verb was incorrect. This case is
+currently counted as incorrect IF the head noun of the compound is the root of the sentence.
+
+<h3> Future Additions </h3>
+The way the groundwork is built for this program, new instances of SVA errors can be easily added.
+
+Additionally, it would be ideal to have a GUI for this program in addition to what is already there.

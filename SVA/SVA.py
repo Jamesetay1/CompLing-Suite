@@ -59,11 +59,9 @@ def find_forward_dep(word, dep, forward_dep_list):
 
 
 for sent in doc.sentences:
-    # We will construct both a forwards and backwards dependency list
-    # We already have the backwards dependencies, but they will be easier to access in this format.
-    # and it mirrors the forward dependencies, which we don't have.
+    # We will construct a fowards dependency list
     forward_dep_list = [[] for n in range(len(sent.words))]
-    backwards_dep_list = [[] for n in range(len(sent.words))]
+
 
     # First lets make our backwards and forwards dependency lists
     for word in sent.words:
@@ -71,8 +69,9 @@ for sent in doc.sentences:
 
         if dep.deprel != "root":
             forward_dep_list[dep.head-1].append(dep)
-            backwards_dep_list[dep.id-1].append(gov)
+            #backwards_dep_list[dep.id-1].append(gov)
 
+    print(forward_dep_list)
     # Now that we have forwards and backwards we can search for special cases to mark as errors or not
     for word in sent.words:
 
@@ -80,7 +79,7 @@ for sent in doc.sentences:
         aux_forward_dep_id = find_forward_dep(word, "aux", forward_dep_list)
         cop_forward_dep_id = find_forward_dep(word, "cop", forward_dep_list)
 
-        #If the word is a verb, AND it has a nsubj forward depedency AND it does NOT have any aux forward dependency
+        # If the word is a verb, AND it has a nsubj forward depedency AND it does NOT have any aux forward dependency
         if word.xpos in nsubj_Agreement_dict and nsubj_forward_dep_id != 0 and aux_forward_dep_id == 0:
             dep = sent.words[nsubj_forward_dep_id-1]
             gov = word
