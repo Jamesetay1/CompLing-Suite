@@ -10,12 +10,12 @@ Program written by me (James Taylor)
 
 <h3>How it works</h3>
 After reading in a file that contains the sentences in question, coreNLP Python library Stanza is used to
-tokenize, tag, and dependency parse on a sentence by sentence basis.  
+tokenize, tag, and dependency parse on a sentence by sentence basis.<br>
 <br />
 After this is done we iterate through each sentence object and
 build a 'forward' dependency list. Each word object
 already contains the id of it's governor, so this information
-is simply reconstructed in a format that's easier to use.  
+is simply reconstructed in a format that's easier to use.<br>
 <br />
 For Example, coreNLP parses "He walked through the door ." to the following dependencies:<br>
 word.text = He, word.head = 2 (walked)<br>
