@@ -49,6 +49,7 @@ The relationships we are currently looking for are:<br>
 <br />  
 <h4>Example</h4> 
 Given the sentence: I am happy that he have been a friend since we met last September.<br>
+<br />
 <b>The program will recognize three subject-verb relationships in this sentence:</b><br>  
 I am happy (Relationship 3A)<br>  
 he have been a friend (Relationship 3B)<br>  
