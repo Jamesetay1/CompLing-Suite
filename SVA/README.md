@@ -56,10 +56,10 @@ he have been a friend (Relationship 3B)
 we met (Relationship 1)  
 <br />
 When we check these against our error matrix we find:  
-<br />Correct: I (PRP) <--nsubj-- am (VBP)
-<br />Incorrect: he (PRP) <--nsubj-- have (VBP)
-<br />Correct: we (PRP) <--nsubj-- met (VBD)
-
+Correct: I (PRP) <--nsubj-- am (VBP)<br>
+Incorrect: he (PRP) <--nsubj-- have (VBP)<br>
+Correct: we (PRP) <--nsubj-- met (VBD)<br>
+<br />
 <h3> Limitations </h3>
 Modals and coordinating conjunctions are not currently supported, but being worked on.
 
