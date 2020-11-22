@@ -98,7 +98,7 @@ for sent in doc.sentences:
         # ex: (He is [happy, a dog, it, that])
         if cop_forward_dep_id != 0 and nsubj_forward_dep_id != 0:
             dep = sent.words[nsubj_forward_dep_id - 1]
-            gov = sent.words[cop_forward_dep_id - 1]
+            gov = sent.words[cop_forward_dep_id - 1] if aux_forward_dep_id == 0 else sent.words[aux_forward_dep_id - 1]
             error = detect_error(dep, gov)
             add_to_list(error, dep, gov, sent)
 

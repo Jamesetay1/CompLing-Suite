@@ -24,37 +24,52 @@ word.text = through, word.head = 5 (door)
 word.text = the, word.head = 5 (door)  
 word.text = door, word.head = 2 (walked)   
 word.text = ., word.head = 2 (walked)
- <br />
+<br />
 Resulting in a forwards dependency list of word objects:    
-[ [] , [word.text = "he", word.text = "door", word.text =  "."], [], [], [word.text = "through", word.text = "the"]]  
+[ [] , \[word.text = "he", word.text = "door", word.text =  "."], [], [], \[word.text = "through", word.text = "the"]]  
 <em> Note that this list is populated with word objects, not just their text. 
-Also note that the root never appears (because it can only be a governor, and is never a dependent) </em>
-
+Also note that the root never appears (because it can only be a governor, and is never a dependent) </em>  
 <h3> Relationships, Rules, and Examples </h3>
 Once we have completed our forward dependency list, we go through the sentence again
 and look for special relationships to test. We test against an agreement dictionary, which is determined
-by the matrix below:
-![matrix](docs/agreement_matrix.png)  
+by the matrix below:  
+![w/e](docs/agreement_matrix.png)  
 <br />
-The relationships we are currently looking for are:  
-<br />    
-<b>Main Verb --nsubj--> Noun:</b>     
+The relationships we are currently looking for are:     
+<b>1: Main Verb --nsubj--> Noun:</b>     
 <em>If the word is a verb AND it has a nsubj forward dependency AND it does <b>NOT</b> have any aux forward dependency</em>  
 <br />
-<b> Aux + Main Verb -- nsubj --> Noun:</b>  
-<em>If the word is a verb AND it has a nsubj forward depedency AND it <b>DOES</b> have any aux forward dependency</em>  
+<b>2: Aux <--aux-- Main Verb --nsubj--> Noun:</b>  
+<em>If the word is a verb AND it has a nsubj forward dependency AND it <b>DOES</b> have any aux forward dependency</em>  
 <br />
-<b> Noun <--nsubj-- Subject Predicate --cop--> Verb:</b>  
-<em>If the word has a copular forward depedency AND an nsubj forward dependency</em>  
+<b>3A: Noun <--nsubj-- Subject Predicate --cop--> Verb:</b>  
+<em>If the word has a copular forward dependency AND an nsubj forward dependency</em> 
+<br />
+<b>3B: 3A + Subject Predicate --aux--> Aux:</b>  
+<em>If the word has a copular forward dependency AND an nsubj forward dependency AND an aux nsubj forward depdency</em> 
+
+<h4> Example </h4>
+Given the sentence: I am happy that he have been a friend since we met last September.  
+The program will recognize three subject-verb relationships in this sentence
+I am happy (Relationship 3A)
+he have been a friend (Relationship 3B)
+we met (Relationship 1)
+
+When we check these against our error matrix we find:
+Correct: I (PRP) <--nsubj-- am (VBP)
+Incorrect: he (PRP) <--nsubj-- have (VBP)
+Correct: we (PRP) <--nsubj-- met (VBD)
 
 <h3> Limitations </h3>
-One limitation of this program surrounds the uncertainty of if there is a mismatch in number between
+Modals and coordinating conjunctions are not currently supported, but being worked on.
+
+One more permanent limitation of this program surrounds the uncertainty of if there is a mismatch in number between
 subject and verb or if it is truly a compound noun. coreNLP will mark instances like "The man park his car"
 as: Man: NN, park: NN, as to say that the noun is 'man park'. Of course this is actually meant to be, 
 "The man parks his car", but the agreement in number between subject and verb was incorrect. This case is
-currently counted as incorrect IF the head noun of the compound is the root of the sentence.
+currently counted as incorrect IF the head noun of the compound is the root of the sentence.  
+
 
 <h3> Future Additions </h3>
 The way the groundwork is built for this program, new instances of SVA errors can be easily added.
-
 Additionally, it would be ideal to have a GUI for this program in addition to what is already there.
