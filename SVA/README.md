@@ -29,7 +29,7 @@ Resulting in a forwards dependency list of word objects:
 [ [] , \[word.text = "he", word.text = "door", word.text =  "."], [], [], \[word.text = "through", word.text = "the"]]  
 <em> Note that this list is populated with word objects, not just their text. 
 Also note that the root never appears (because it can only be a governor, and is never a dependent) </em>  
-<h3> Relationships, Rules, and Examples </h3>
+<h3> Relationships and Rules </h3>
 Once we have completed our forward dependency list, we go through the sentence again
 and look for special relationships to test. We test against an agreement dictionary, which is determined
 by the matrix below:  
