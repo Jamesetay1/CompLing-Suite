@@ -9,7 +9,7 @@ doc = nlp(data)
 nsubj_Agreement_dict = {
                 "VB": [],
                 "VBD": ["NN", "NNS", "NNP", "NNPS", "PRP_1", "PRP_2", "DT_1", "DT_2"],
-                "VBG": ["NN", "NNS", "NNP", "NNPS", "PRP_1", "PRP_2", "DT_1", "DT_2"],
+                "VBG": [],
                 "VBN": ["NN", "NNS", "NNP", "NNPS", "PRP_1", "PRP_2", "DT_1", "DT_2"],
                 "VBZ": ["NN", "NNP", "PRP_2", "DT_1"],
                 "VBP": ["NNS", "NNPS", "PRP_1", "DT_2"],
@@ -22,7 +22,21 @@ grouping_dict = {
                 "DT_2": ["these", "those"],
 }
 
-def error(dep, gov):
+adj_list = ["JJ", "JJR", "JJS"]
+
+
+correct_list = []
+incorrect_list = []
+
+def add_to_list(error, dep, gov, sent):
+    if error:
+        incorrect_list.append(f'{dep.text} ({dep.xpos}) <--{dep.deprel}-- {gov.text} ({gov.xpos}) in "{sent.text}"')
+    else:
+        correct_list.append(f'{dep.text} ({dep.xpos}) <--{dep.deprel}-- {gov.text} ({gov.xpos}) in "{sent.text}"')
+    return True;
+
+
+def detect_error(dep, gov):
     print(dep.text + "," + gov.text)
     if dep.xpos in nsubj_Agreement_dict[gov.xpos]:
         return False;
@@ -33,59 +47,78 @@ def error(dep, gov):
 
     return True;
 
-correct = []
-incorrect = []
-compounds = []
+
+# Will return the id of the where the dependency was found where 'word' is the governor,
+# or 0 if none at all
+def find_forward_dep(word, dep, forward_dep_list):
+    forward_list = forward_dep_list[word.id-1]
+    for i in range(len(forward_list)):
+        if forward_list[i].deprel == dep:
+            return forward_list[i].id
+    return 0
+
+
 for sent in doc.sentences:
-    parts = {}
+    # We will construct both a forwards and backwards dependency list
+    # We already have the backwards dependencies, but they will be easier to access in this format.
+    # and it mirrors the forward dependencies, which we don't have.
+    forward_dep_list = [[] for n in range(len(sent.words))]
+    backwards_dep_list = [[] for n in range(len(sent.words))]
 
+    # First lets make our backwards and forwards dependency lists
     for word in sent.words:
-        dep = word
-        dep_pos = word.xpos
+        dep = word;  gov = sent.words[dep.head - 1]
 
-        gov = sent.words[word.head - 1]
-        gov_pos = gov.xpos
+        if dep.deprel != "root":
+            forward_dep_list[dep.head-1].append(dep)
+            backwards_dep_list[dep.id-1].append(gov)
 
-        #Check against the "agreement matrix"
-        if word.deprel == "nsubj":
-            parts["subj"] = word
-            parts["subj-mv"] = word
+    # Now that we have forwards and backwards we can search for special cases to mark as errors or not
+    for word in sent.words:
 
-        if word.deprel == "aux":
-            parts["aux"] = word
-            parts["aux-mv"] = word
+        nsubj_forward_dep_id = find_forward_dep(word, "nsubj", forward_dep_list)
+        aux_forward_dep_id = find_forward_dep(word, "aux", forward_dep_list)
+        cop_forward_dep_id = find_forward_dep(word, "cop", forward_dep_list)
 
-        # Check for cases like "A dog run through the park", where it is NN + NN (or NNS + NNS) and the root is the governor noun
-        if word.deprel == "compound":
-            if gov_pos == dep_pos and gov.deprel == "root":
-                compounds.append(word.text + "(" + word.xpos + ") " + "<--compound--- " + sent.words[
-                    word.head - 1].text + "(" + gov_pos + ")")
-                continue
+        #If the word is a verb, AND it has a nsubj forward depedency AND it does NOT have any aux forward dependency
+        if word.xpos in nsubj_Agreement_dict and nsubj_forward_dep_id != 0 and aux_forward_dep_id == 0:
+            dep = sent.words[nsubj_forward_dep_id-1]
+            gov = word
+            error = detect_error(dep, word)
+            add_to_list(error, dep, word, sent)
 
-        if "aux" in parts:
-            if error(parts["subj"], parts["aux"]):
-                incorrect.append(parts["subj"].text + "(" + word.xpos + ") " + "<--nsubj--- "
-                                 + parts["aux"].text + "(" + parts["aux"].xpos + ") "
-                                 + parts["aux-mv"] + word + " ")
-        else:
-            if error(parts["subj"], parts["subj-mv"]):
-                incorrect.append(word.text + "(" + word.xpos + ") " + "<--nsubj--- " + sent.words[
-                    word.head - 1].text + "(" + gov_pos + ")")
+        # If the word is a verb, AND it has a nsubj forward depedency AND it DOES have any aux forward dependency
+        if word.xpos in nsubj_Agreement_dict and nsubj_forward_dep_id != 0 and aux_forward_dep_id != 0:
+            dep = sent.words[nsubj_forward_dep_id - 1]
+            gov = sent.words[aux_forward_dep_id - 1]
+            error = detect_error(dep, gov)
+            add_to_list(error, dep, gov, sent)
+
+        # If the word has a copular forward depedency AND an nsubj forward dependency
+        # Will work if the subject predicate is an adjective, NP, Pronoun etc.
+        # ex: (He is [happy, a dog, it, that])
+        if cop_forward_dep_id != 0 and nsubj_forward_dep_id != 0:
+            dep = sent.words[nsubj_forward_dep_id - 1]
+            gov = sent.words[cop_forward_dep_id - 1]
+            error = detect_error(dep, gov)
+            add_to_list(error, dep, gov, sent)
 
 
-# total_num = len(correct) + len(incorrect)
-# correct_percent = len(correct)/total_num * 100
-# incorrect_percent = len(incorrect)/total_num * 100
-# print("\nGeneral Statistics:")
-# print("# of nsubj dependencies considered: " + str(total_num))
-# print("# and percent of correct uses: " + str(len(correct)) + ", " + str(correct_percent))
-# print("# and percent of correct uses: " + str(len(incorrect)) + ", " + str(incorrect_percent))
-#
-# print("\nThe following nsubj dependencies were found to be incorrect:")
-# print(*incorrect,sep='\n')
-#
-# print("\nThe following nsubj dependencies were found to be correct:")
-# print(*correct,sep='\n')
-#
-# print("\nThe following compound nouns were found and are likely subject verb agreement errors:")
-# print(*compounds,sep='\n')
+
+#Now we can print out some stats
+total_num = len(correct_list) + len(incorrect_list)
+correct_percent = len(correct_list)/total_num * 100
+incorrect_percent = len(incorrect_list)/total_num * 100
+print("\nGeneral Statistics:")
+print("# of nsubj dependencies considered: " + str(total_num))
+print("# and percent of correct uses: " + str(len(correct_list)) + ", " + str(correct_percent))
+print("# and percent of correct uses: " + str(len(incorrect_list)) + ", " + str(incorrect_percent))
+
+print("\nThe following nsubj dependencies were found to be incorrect:")
+print(*incorrect_list,sep='\n')
+
+print("\nThe following nsubj dependencies were found to be correct:")
+print(*correct_list,sep='\n')
+
+#print("\nThe following compound nouns were found and are likely subject verb agreement errors:")
+#print(*compounds,sep='\n')
