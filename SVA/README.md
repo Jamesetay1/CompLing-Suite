@@ -4,8 +4,8 @@ The program specifically targets errors commonly found in the English Placement 
 <h3> Background </h3>
 This program was the final group project for <b>LING 520: Computational Analysis of English at Iowa State
 University, Fall 2020.</b>
-The associated research paper for this program is available here:
-
+The associated research paper for this program is available here:<br>
+<br />
 Program written by me (James Taylor, jamesetay1@gmail.com)<br>
 Corpus Research and Derivation of Rules by:<br>
 Ella Alhudithi (ella@iastate.edu) <br>
