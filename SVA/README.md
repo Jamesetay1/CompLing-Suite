@@ -38,9 +38,10 @@ by the matrix below:
 The relationships we are currently looking for are:<br>    
 <b>1: Main Verb --nsubj--> Noun:</b>     
 <em>If the word is a verb AND it has a nsubj forward dependency AND it does <b>NOT</b> have any aux forward dependency</em><br>
+<br />
 <b>2: Aux <--aux-- Main Verb --nsubj--> Noun:</b>  
 <em>If the word is a verb AND it has a nsubj forward dependency AND it <b>DOES</b> have any aux forward dependency</em><br> 
-
+<br />
 <b>3A: Noun <--nsubj-- Subject Predicate --cop--> Verb:</b>  
 <em>If the word has a copular forward dependency AND an nsubj forward dependency</em>
 <b>3B: 3A + Subject Predicate --aux--> Aux:</b>  
