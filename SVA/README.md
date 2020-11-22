@@ -30,7 +30,7 @@ word.text = door, word.head = 2 (walked)<br>
 word.text = ., word.head = 2 (walked)<br>
 <br />
 Resulting in a forwards dependency list of word objects:<br>    
-[ [] , [word.text = "he", word.text = "door", word.text =  "."], [], [], [word.text = "through", word.text = "the"] ]  
+[ [] , [word.text = "he", word.text = "door", word.text =  "."], [], [], [word.text = "through", word.text = "the"] ]<br>
 <em> Note that this list is populated with word objects, not just their text. 
 Also note that the root never appears (because it can only be a governor, and is never a dependent) </em>  
 <h3> Relationships and Rules </h3>
