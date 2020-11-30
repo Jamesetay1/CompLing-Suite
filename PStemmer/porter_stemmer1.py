@@ -192,7 +192,7 @@ def run_tests():
     step5_results = list(map(step5, step5_original))
     print_results("Step 5", step5_original, step5_expected, step5_results)
     
-    #Once all tests are done, will print out
+    #Once all tests.txt are done, will print out
     
 def stem(original_word):
     # vowel is Y, consonant is y. At the end, everything reverts to lowercase.
@@ -205,7 +205,7 @@ def stem(original_word):
     
     return stem
 
-original_word = input("Give me a word.\nOr type \"%test\" to run tests.\n")
+original_word = input("Give me a word.\nOr type \"%test\" to run tests.txt.\n")
 original_word = original_word.lower()
 
 if(original_word=="%test"):

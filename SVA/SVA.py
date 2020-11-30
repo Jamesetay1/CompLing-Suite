@@ -2,7 +2,7 @@ import stanza
 #stanza.download('en')
 nlp = stanza.Pipeline('en', processors = "tokenize, pos, lemma, depparse", batch_size = "100")
 
-with open('singlesent.txt', 'r') as file:
+with open('tests.txt', 'r') as file:
     data = file.read()
 doc = nlp(data)
 
@@ -16,8 +16,8 @@ nsubj_Agreement_dict = {
 }
 
 grouping_dict = {
-                "PRP_1": ["i", "you", "they", "we", "she", "it", "his", "hers", "theirs"],
-                "PRP_2": ["he", "she"],
+                "PRP_1": ["i", "you", "they", "we", "theirs"],
+                "PRP_2": ["he", "she", "it", "his", "hers"],
                 "DT_1": ["this", "that"],
                 "DT_2": ["these", "those"],
 }
@@ -37,7 +37,7 @@ def add_to_list(error, dep, gov, sent):
 
 
 def detect_error(dep, gov):
-    print(dep.text + "," + gov.text)
+    if dep.xpos == "MD" or gov.xpos == "MD": return False;
     if dep.xpos in nsubj_Agreement_dict[gov.xpos]:
         return False;
 
@@ -71,7 +71,6 @@ for sent in doc.sentences:
             forward_dep_list[dep.head-1].append(dep)
             #backwards_dep_list[dep.id-1].append(gov)
 
-    print(forward_dep_list)
     # Now that we have forwards and backwards we can search for special cases to mark as errors or not
     for word in sent.words:
 
