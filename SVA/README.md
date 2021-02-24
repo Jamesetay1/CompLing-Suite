@@ -74,5 +74,6 @@ as: Man: NN, park: NN, as to say that the noun is 'man park'. Of course this is 
 currently counted as incorrect IF the head noun of the compound is the root of the sentence.  
 
 <h3> Future Additions </h3>
+
 Future additions of SVA errors should be easy to add with the current framework
 Additionally, it would be ideal to have a GUI for this program in addition to what is already there.
