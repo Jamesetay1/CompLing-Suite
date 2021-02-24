@@ -66,7 +66,6 @@ Incorrect: he (PRP) <--nsubj-- have (VBP)<br>
 Correct: we (PRP) <--nsubj-- met (VBD)<br>
 <br />
 <h3> Limitations </h3>
-Modals and coordinating conjunctions are not currently supported, but being worked on.
 
 One more permanent limitation of this program surrounds the uncertainty of if there is a mismatch in number between
 subject and verb or if it is truly a compound noun. coreNLP will mark instances like "The man park his car"
@@ -74,7 +73,6 @@ as: Man: NN, park: NN, as to say that the noun is 'man park'. Of course this is 
 "The man parks his car", but the agreement in number between subject and verb was incorrect. This case is
 currently counted as incorrect IF the head noun of the compound is the root of the sentence.  
 
-
 <h3> Future Additions </h3>
-The way the groundwork is built for this program, new instances of SVA errors can be easily added.
+Future additions of SVA errors should be easy to add with the current framework
 Additionally, it would be ideal to have a GUI for this program in addition to what is already there.
